@@ -1,0 +1,91 @@
+#+title: install_Void
+#+language: en
+#+options: H:4 num:nil toc:2
+surfing the event horizon since 2023!
+-----
+* What Is install_Void?
+install_Void is a series of bash scripts that seeks primarily to
+[[https:https://docs.voidlinux.org/installation/live-images/guide.html][automate install methods not supported by void-installer]] and make Void Linux more
+extensible at install time. Features that I am prioritizing right now are:
+- making sure the script actually creates a working Void Linux install
+- accounting for people who don't have the same drive configuration as me
+- out-of-the-box CUDA for ML workloads
+- using [[https:https://man.openbsd.org/doas][doas]] with sane defaults instead of sudo
+** What is install_Void not?
+install_Void is NOT:
+- endorsed by the Void Linux core dev team
+- a fully working replacement for the official void-installer
+- something you should use if you are unfamiliar with the Void Linux
+  [[https:https://docs.voidlinux.org/installation/guides/chroot.html][chroot install process]]
+
+  As is, void_Install is a script that requires a bunch of under-the-hood tweaks
+  in order to work for an end-user install in most every day use cases (this was
+  originally whipped up in a day to prepare my workstation ). Patching this meta-bug
+  is top priority.
+* Getting Started
+*** Requirements:
+- a working Void Linux live environment
+- git
+
+To use install_Void, clone this repo in a live environment; from there it is
+simply a matter of running the script.
+#+begin_src bash
+git clone https://github.com/3fl-view/install_Void.git
+./install_void.sh
+#+end_src
+
+* Wishlist
+** Project-Wide
+**** IDEA Dev-Preconfig Mode
+***** IDEA Sane defaults for compilers, with autodetected optimizations
+**** IDEA Zig mode :musl:
+***** IDEA Rewrite in Zig?
+**** IDEA [[https:https://github.com/LukeSmithxyz/voidrice][LARBS]] Mode[fn:1]
+***** IDEA Before running, offers to remove nonfree repos if installed.
+** Disk Management
+**** TODO [#A] Actually being able to choose which disks are formatted
+***** DONE Autodetect disks
+***** DONE Differentiate SATA and NVMe drives
+**** TODO [#A] Choose filesystems with sane defaults
+***** TODO [#B] Optimizations for HDD devices
+***** TODO Choose mount points
+**** TODO [#B] Volume Management
+***** TODO Guided LVM setup
+****** TODO Optional encryption
+***** TODO BTRFS mode, available with or without LVM
+***** TODO ZFS
+**** TODO Option to clean up and retry on fail
+** Core Installer
+**** TODO keymap selection
+**** TODO libc selection
+***** TODO Warn if musl is chosen for nvidia
+**** TODO locales :glibc:
+**** TODO [#B] Bootstrapping for [[https:https://github.com/void-linux/void-packages][xbrs-src]]
+**** TODO [#C] Bootstrapping for [[https:https://pkgsrc.org][pkgsrc]]
+**** TODO [#C] Bootstrapping for [[https:https://nixos.org][Nix]]
+**** TODO Very basic wrapper that doesn't require you to have source tree in PWD
+***** TODO Prioritization of package managers
+***** TODO Flag to automatically invoke xbps-install for local repo
+**** TODO Apparmor
+**** TODO [#B] Enabling the [[https:https://docs.voidlinux.org/xbps/repositories/index.html][other void repos]]
+** Post-Install
+**** TODO [#A] Dracut things
+***** TODO Sane defaults for dracut and EFIBootmgr by chosen disk
+***** TODO Defaulting to efistub in the event that user chooses [[https:https://git.savannah.gnu.org/cgit/grub.git/commit/?id=365e0cc3e7e44151c14dd29514c2f870b49f9755][full disk encryption with LUKS2]]
+**** TODO [#B] Enabling option for ZFSBootMenu for ZFS Root
+**** TODO Configuration for sshd
+**** TODO Choosing services to enable in default runlevel
+**** TODO /etc/rc file configuration
+**** TODO [#C] DKMS setup
+**** TODO [#B] Power management
+**** TODO chron/snooze setup
+***** TODO [#B] logging
+***** TODO email
+***** TODO automatic updates
+**** TODO Network management
+**** TODO Graphics Drivers
+***** TODO [#B] Setting up CUDA at install time :glibc:
+
+* Footnotes
+
+[fn:1] To be run immediately after enabling void repos.

@@ -8,7 +8,7 @@ fi
 
 # Run LVM.sh to create partitions and filesystems
 echo "Running LVM.sh..."
-./LVM.sh
+. ./disk_config.sh
 lvm_exit_code=$?
 
 # Check if LVM.sh was successful
@@ -17,10 +17,9 @@ if [ $lvm_exit_code -ne 0 ]; then
     exit 1
 fi
 
-
 # Install Void Linux on the given filesystem
 echo "Installing Void Linux on the created filesystem..."
-xbps-install -Sy -R https://alpha.de.repo.voidlinux.org/current -r /mnt base-system
+xbps-install -Sy -R https://alpha.de.repo.voidlinux.org/current -r /mnt base-system lvm2 xfsprogs exfatprogs
 
 # Prompt the user whether to install void-repo-nonfree
 read -p "Do you want to install void-repo-nonfree? (y/n) " nonfree_reply
@@ -41,4 +40,3 @@ fi
 # Run voidstrap.sh for post-install configuration
 echo "Running voidstrap.sh..."
 ./voidstrap.sh
-
